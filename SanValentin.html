@@ -4,387 +4,358 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>¿Quieres ser mi San Valentín?</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- Colores y Variables --- */
         :root {
-            --pastel-pink: #ffd1dc;
-            --pastel-pink-dark: #ffb7c5;
-            --pastel-green: #e2f0cb;
-            --pastel-white: #ffffff;
-            --text-color: #7d5a5a;
+            --pink-50: #fdf2f8;
+            --pink-200: #fbcfe8;
+            --pink-500: #ec4899;
+            --pink-600: #db2777;
+            --gray-500: #6b7280;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            background-color: #fdf2f8; /* Pink-50 */
-            font-family: 'Quicksand', sans-serif;
-            overflow: hidden; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at top, #fff7fb 0%, var(--pink-50) 45%, #fde2ee 100%);
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
             position: relative;
         }
 
-        /* --- Tipografía --- */
         .title-font {
             font-family: 'Pacifico', cursive;
-            color: #db2777; /* Pink-600 */
-            text-shadow: 2px 2px 0px #fbcfe8;
+            color: var(--pink-600);
+            text-shadow: 2px 2px 0 var(--pink-200);
         }
 
-        /* --- Tarjeta Principal --- */
         .card {
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(255, 182, 193, 0.4), inset 0 0 0 5px #fff;
-            padding: 2rem;
+            width: min(520px, 92vw);
+            background: rgba(255, 255, 255, 0.94);
+            border-radius: 28px;
+            padding: 2rem 1.75rem;
+            box-shadow: 0 20px 60px rgba(244, 114, 182, 0.35), inset 0 0 0 6px #fff;
             text-align: center;
             position: relative;
-            z-index: 50; 
-            max-width: 500px;
-            width: 90%;
+            z-index: 5;
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 0.75rem;
         }
 
-        /* --- Botones --- */
-        .btn-container {
+        .badge {
+            font-size: 3.2rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
+            animation: bounce 1.8s infinite ease-in-out;
+        }
+
+        .lead {
+            font-size: 1.05rem;
+            color: #6b7280;
+            line-height: 1.55;
+            margin: 0;
+        }
+
+        .hint {
+            display: inline-block;
+            margin-top: 0.25rem;
+            font-size: 0.9rem;
+            color: var(--pink-500);
+            font-weight: 700;
+        }
+
+        .btn-row {
             display: flex;
-            flex-direction: column;
-            align-items: center;
             gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
             width: 100%;
-            margin-top: 1rem;
-            position: relative; /* Para controlar el contexto de apilamiento */
-        }
-
-        @media (min-width: 768px) {
-            .btn-container {
-                flex-direction: row;
-                justify-content: center;
-                gap: 2rem;
-            }
+            margin-top: 0.5rem;
         }
 
         .btn {
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 12px 28px;
+            border-radius: 999px;
             border: none;
-            outline: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 140px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
             user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            white-space: nowrap; 
-            position: relative;
-            /* Ajuste de área de interacción */
-            width: auto; 
-            min-width: 120px;
-            max-width: 100%;
         }
 
         .btn:active {
-            transform: scale(0.95);
+            transform: scale(0.96);
         }
 
         .btn-yes {
-            background-color: #f472b6;
+            background: var(--pink-500);
             color: white;
-            z-index: 10; /* Menor que el NO para no taparlo al crecer */
         }
 
         .btn-yes:hover {
-            background-color: #db2777;
-            box-shadow: 0 10px 25px rgba(244, 114, 182, 0.5);
+            background: var(--pink-600);
+            box-shadow: 0 10px 20px rgba(219, 39, 119, 0.4);
         }
 
         .btn-no {
-            background-color: #e5e7eb;
-            color: #6b7280;
-            z-index: 50; /* SIEMPRE encima del botón SÍ */
+            background: #e5e7eb;
+            color: var(--gray-500);
+        }
+
+        .btn-no:hover {
+            background: #d1d5db;
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+            z-index: 10;
+            padding: 2rem 1.25rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .overlay.show {
+            display: flex;
+            animation: fadeIn 0.8s ease forwards;
         }
 
         .btn-whatsapp {
-            background-color: #25D366;
+            background: #25D366;
             color: white;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            margin-top: 20px;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-weight: bold;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
-            transition: background-color 0.3s;
+            gap: 0.5rem;
+            padding: 12px 22px;
+            border-radius: 999px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(37, 211, 102, 0.35);
         }
+
         .btn-whatsapp:hover {
-            background-color: #128C7E;
+            background: #128C7E;
         }
 
-        /* --- Flores (Imágenes Externas) --- */
-        .flower-img {
+        .flower {
             position: fixed;
-            bottom: 0;
-            z-index: 10;
+            bottom: -10px;
+            width: 160px;
+            z-index: 2;
+            filter: drop-shadow(0 6px 8px rgba(0,0,0,0.1));
             pointer-events: none;
-            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
-            transition: transform 3s ease-in-out;
-            animation: sway 4s infinite ease-in-out alternate;
+            animation: sway 4s ease-in-out infinite alternate;
         }
 
-        .flower-left {
-            left: -20px;
-            bottom: -20px;
-            width: 150px;
+        .flower.left {
+            left: -10px;
             transform-origin: bottom left;
         }
 
-        .flower-right {
-            right: -20px;
-            bottom: -20px;
-            width: 160px;
+        .flower.right {
+            right: -10px;
             transform-origin: bottom right;
             animation-delay: 1s;
         }
 
-        @keyframes sway {
-            0% { transform: rotate(-5deg); }
-            100% { transform: rotate(5deg); }
-        }
-
-        /* --- Animaciones y Utilidades --- */
-        .hidden-content {
-            display: none;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
-
-        .fade-in {
-            animation: fadeIn 1s forwards;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        /* Animación de temblor para el botón No */
-        .shake {
-            animation: shake 0.5s;
-        }
-
-        @keyframes shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-            100% { transform: translateX(0); }
-        }
-
-        /* Corazones flotantes del fondo */
-        .bg-heart {
+        .bg-float {
             position: absolute;
-            color: rgba(255, 182, 193, 0.4);
-            font-size: 2rem;
-            animation: floatBackground 15s linear infinite;
+            font-size: 1.8rem;
+            animation: floatHearts 14s linear infinite;
+            pointer-events: none;
             z-index: 1;
+            opacity: 0.85;
+        }
+
+        .bg-heart {
+            color: rgba(236, 72, 153, 0.25);
+        }
+
+        .bg-squirrel {
+            color: rgba(148, 94, 61, 0.35);
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 6px;
+            border-radius: 2px;
+            z-index: 20;
             pointer-events: none;
         }
 
-        @keyframes floatBackground {
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes sway {
+            from { transform: rotate(-4deg); }
+            to { transform: rotate(4deg); }
+        }
+
+        @keyframes floatHearts {
             0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
+            10% { opacity: 0.85; }
+            90% { opacity: 0.85; }
             100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
+    <div id="bg-hearts"></div>
 
-    <!-- Fondo de corazones -->
-    <div id="bg-hearts-container" class="fixed inset-0 pointer-events-none"></div>
+    <img class="flower left" src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f337.svg" alt="Tulipán">
+    <img class="flower right" src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f490.svg" alt="Ramo de flores">
 
-    <!-- Imágenes de Flores -->
-    <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f337.svg" alt="Tulipán" class="flower-img flower-left">
-    <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f490.svg" alt="Ramo de flores" class="flower-img flower-right">
-
-
-    <!-- Tarjeta Principal -->
-    <div class="card" id="mainCard">
-        <div class="flex justify-center mb-4">
-            <span class="text-5xl animate-bounce" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">💌</span>
-        </div>
-
-        <h1 class="text-4xl md:text-5xl title-font mb-6 leading-tight">
-            ¿Quieres ser mi<br>San Valentín?
-        </h1>
-
-        <p id="mainText" class="text-gray-600 mb-8 text-lg font-medium transition-all px-4">
+    <main class="card" id="mainCard">
+        <div class="badge">💌</div>
+        <h1 class="title-font">¿Quieres ser mi<br>San Valentín?</h1>
+        <p class="lead" id="mainText">
             Eres la persona más especial en mi vida y me haría muy feliz pasar este día contigo.
-            <br><span class="text-sm text-pink-400 mt-2 block font-bold">(Por favor di que sí 🥺)</span>
+            <br><span class="hint">(Por favor di que sí 🥺)</span>
         </p>
 
-        <!-- Contenedor de botones -->
-        <div class="btn-container">
-            <button id="yesBtn" type="button" class="btn btn-yes">
-                ¡Sí! 💖
-            </button>
-            
-            <button id="noBtn" type="button" class="btn btn-no">
-                No
-            </button>
+        <div class="btn-row">
+            <button id="yesBtn" class="btn btn-yes" type="button">¡Sí! 💖</button>
+            <button id="noBtn" class="btn btn-no" type="button">No 😅</button>
         </div>
-    </div>
+    </main>
 
-    <!-- Pantalla de Éxito -->
-    <div id="successContent" class="hidden-content text-center z-[100] fixed inset-0 flex flex-col items-center justify-center bg-white/95 backdrop-blur-md p-4">
-        <h1 class="text-4xl md:text-6xl title-font mb-6 text-pink-600 animate-bounce">
-            ¡SIII! ¡Sabía que aceptarías!
-        </h1>
-        <p class="text-xl md:text-2xl text-gray-700 font-bold mb-8">
-            ¡Nos vemos el 14 de Febrero! ❤️
+    <section class="overlay" id="successOverlay" aria-live="polite">
+        <h1 class="title-font">¡SÍÍÍ! 💕</h1>
+        <p class="lead" style="font-size: 1.2rem; font-weight: 700; color: #374151;">
+            ¡Sabía que aceptarías! Nos vemos el finde mi amor ❤️
         </p>
-        
-        <div class="text-8xl animate-pulse mb-6">
-            🥰
-        </div>
-
-        <!-- Botón de WhatsApp -->
-        <button id="whatsappBtn" type="button" class="btn btn-whatsapp">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            Enviar respuesta por WhatsApp
+        <div style="font-size: 4rem;">🥰</div>
+        <button id="whatsappBtn" class="btn-whatsapp" type="button">
+            Decir que siiiiiii
         </button>
-    </div>
+    </section>
 
     <script>
-        const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
-        const mainCard = document.getElementById('mainCard');
-        const successContent = document.getElementById('successContent');
-        const bgContainer = document.getElementById('bg-hearts-container');
-        const whatsappBtn = document.getElementById('whatsappBtn');
+        const noBtn = document.getElementById('noBtn');
         const mainText = document.getElementById('mainText');
+        const mainCard = document.getElementById('mainCard');
+        const successOverlay = document.getElementById('successOverlay');
+        const whatsappBtn = document.getElementById('whatsappBtn');
+        const bgHearts = document.getElementById('bg-hearts');
 
-        // --- Lógica del Botón SÍ (WhatsApp) ---
-        // Este evento SOLO se dispara con el botón SÍ
-        yesBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Evita burbujeo
-            
-            // Ocultar tarjeta y mostrar éxito
+        const peticiones = [
+            { texto: "¿Estás segura? 🤔<br><span class='hint'>(Dale otra oportunidad al SÍ)</span>", botonNo: "No 😅" },
+            { texto: "¿De verdad de verdad? 😢<br><span class='hint'>¡Rompes mi corazón!</span>", botonNo: "Sigo diciendo no" },
+            { texto: "¡Piénsalo bien! 💭<br><span class='hint'>Prometo hacerte feliz...</span>", botonNo: "Mmm... no" },
+            { texto: "¡Te haré reír todos los días! 😄<br><span class='hint'>¿Eso no vale algo?</span>", botonNo: "Jaja, pero no" },
+            { texto: "¡No me hagas esto! 💔<br><span class='hint'>Mira qué lindo SÍ hay ahí...</span>", botonNo: "Lo siento 😬" },
+            { texto: "¡Voy a llorar! 😭<br><span class='hint'>En serio... di que sí</span>", botonNo: "No llores pero no" },
+            { texto: "¡Piensa en las ardillas, una hace rip cada que dices que no!<br><span class='hint'>Cada no duele un poco</span>", botonNo: "Pobrecitas pero no" },
+            { texto: "¿Y si te digo por favor? 🥺<br><span class='hint'>Por favorcito, por favorcitoooo</span>", botonNo: "Hmm... no 🙃" },
+            { texto: "¡No seas así! 😩<br><span class='hint'>El botón de SÍ se siente solito</span>", botonNo: "Qué pena pero no" },
+            { texto: "¿Sabes qué? Te lo vuelvo a preguntar 💘<br><span class='hint'>¿Quieres ser mi San Valentín?</span>", botonNo: "Que nooo" },
+            { texto: "OK, respira... y ahora piensa... 🧘<br><span class='hint'>¿La respuesta es SÍ verdad?</span>", botonNo: "Nop" },
+            { texto: "Lo nuestro durara por siempre, piensalo... ♾️<br><span class='hint'>Solo tú puedes pararlo diciendo SÍ</span>", botonNo: "Sigo firme 😤" },
+            { texto: "Admiro tu resistencia PERO... 💪<br><span class='hint'>¡DI QUE SÍ DE UNA VEZ! 🥹</span>", botonNo: "... no 😅" }
+        ];
+
+        let peticionIndex = 0;
+
+        yesBtn.addEventListener('click', () => {
             mainCard.style.display = 'none';
-            successContent.style.display = 'flex';
-            successContent.classList.add('fade-in');
-            
-            // Lanzar confeti
+            successOverlay.classList.add('show');
             fireConfetti();
         });
 
-        // --- Configuración de WhatsApp (Botón final) ---
+        noBtn.addEventListener('click', () => {
+            const peticion = peticiones[peticionIndex];
+            peticionIndex = (peticionIndex + 1) % peticiones.length;
+            mainText.innerHTML = peticion.texto;
+            noBtn.textContent = peticion.botonNo;
+        });
+
         whatsappBtn.addEventListener('click', () => {
-            // Nota para el usuario: Agrega tu número aquí si lo deseas (ej: 5215555555555)
-            const phoneNumber = ""; 
-            const message = "¡Hola! Sí quiero ser tu San Valentín 💖💐";
-            
+            const phoneNumber = "30278051"; // Ejemplo: "5215555555555"
+            const message = "¡claro que quiero ser tu San Valentin mi amor, te amo con toda mi alma";
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             const baseUrl = isMobile ? 'https://api.whatsapp.com/send' : 'https://web.whatsapp.com/send';
-            
             const url = `${baseUrl}?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
             window.open(url, '_blank');
         });
 
-        // --- Frases para el Bucle del NO ---
-        const phrases = [
-            "¿Estás segura?",
-            "¿De verdad?",
-            "¡Piénsalo bien!",
-            "¡Te haré reír!",
-            "¡No me hagas esto!",
-            "¡Voy a llorar! 😭",
-            "¡Se muere un gatito! 🐱",
-            "¡Última chance!",
-            "¡No seas mala!",
-            "¡Di que sí! ❤️"
-        ];
-        
-        let phraseIndex = 0;
-        let yesScale = 1;
+        function createBackgroundHearts() {
+            const emojis = [
+                { emoji: '❤️', className: 'bg-heart' },
+                { emoji: '🐿️', className: 'bg-squirrel' }
+            ];
 
-        // --- Lógica del Botón NO (Bucle) ---
-        // Este evento SOLO se dispara con el botón NO
-        noBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Evita burbujeo crítico
-            e.preventDefault();
-
-            // 1. Cambiar texto del botón No
-            noBtn.innerText = phrases[phraseIndex];
-            phraseIndex = (phraseIndex + 1) % phrases.length;
-            
-            // 2. Hacer crecer el botón Sí
-            yesScale += 0.2; // Aumentar tamaño
-            yesBtn.style.transform = `scale(${yesScale})`;
-            
-            // 3. Animación visual (temblor)
-            noBtn.classList.add('shake');
-            setTimeout(() => {
-                noBtn.classList.remove('shake');
-            }, 500);
-
-            // 4. Cambiar mensaje principal si insiste mucho
-            if (yesScale > 1.8) {
-                mainText.innerHTML = "¡Por favor! <br> ¡Ya no tienes opción! <br>🥺💖";
-                mainText.classList.add('text-pink-600', 'font-bold');
+            for (let i = 0; i < 22; i++) {
+                const choice = emojis[Math.floor(Math.random() * emojis.length)];
+                const floater = document.createElement('div');
+                floater.className = `bg-float ${choice.className}`;
+                floater.textContent = choice.emoji;
+                floater.style.left = `${Math.random() * 100}vw`;
+                floater.style.animationDuration = `${Math.random() * 8 + 8}s`;
+                floater.style.fontSize = `${Math.random() * 18 + 16}px`;
+                floater.style.animationDelay = `${Math.random() * 3}s`;
+                bgHearts.appendChild(floater);
             }
-        });
+        }
 
-        // --- Confeti ---
         function fireConfetti() {
-            const colors = ['#f472b6', '#db2777', '#fbcfe8', '#e2f0cb'];
-            for (let i = 0; i < 150; i++) {
+            const colors = ['#f472b6', '#db2777', '#fbcfe8', '#e2f0cb', '#ff69b4', '#fb7185'];
+            for (let i = 0; i < 140; i++) {
                 const confetti = document.createElement('div');
-                confetti.style.position = 'fixed';
-                confetti.style.width = Math.random() * 10 + 5 + 'px';
-                confetti.style.height = Math.random() * 8 + 4 + 'px';
+                confetti.className = 'confetti';
                 confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.top = -20 + 'px';
-                confetti.style.zIndex = '1000';
-                
-                const duration = Math.random() * 3 + 2;
-                confetti.style.transition = `top ${duration}s ease-in, transform ${duration}s linear`;
-                
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.top = `-20px`;
+                confetti.style.opacity = '0.9';
+                confetti.style.width = `${Math.random() * 8 + 4}px`;
+                confetti.style.height = `${Math.random() * 6 + 4}px`;
+                confetti.style.borderRadius = Math.random() > 0.5 ? '999px' : '3px';
                 document.body.appendChild(confetti);
 
-                setTimeout(() => {
-                    confetti.style.top = '110vh';
-                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-                }, 50);
+                const duration = Math.random() * 3 + 2;
+                const xMove = (Math.random() - 0.5) * 200;
+                confetti.animate([
+                    { transform: 'translate(0, 0) rotate(0deg)', opacity: 1 },
+                    { transform: `translate(${xMove}px, 110vh) rotate(720deg)`, opacity: 0 }
+                ], {
+                    duration: duration * 1000,
+                    easing: 'ease-in'
+                });
 
                 setTimeout(() => confetti.remove(), duration * 1000);
             }
         }
 
-        // --- Fondo Animado ---
-        function createBackgroundHearts() {
-            const heartCount = 15;
-            for(let i=0; i<heartCount; i++) {
-                const heart = document.createElement('div');
-                heart.classList.add('bg-heart');
-                heart.innerHTML = '❤️';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
-                bgContainer.appendChild(heart);
-            }
-        }
         createBackgroundHearts();
-
     </script>
 </body>
 </html>
